@@ -5,10 +5,12 @@ import 'package:sqflite/sqflite.dart';
 
 class SqliteDbService {
   Database db;
+  String _path;
 
   Future<void> initDatabase() async {
     var dbPath = await getDatabasesPath();
     String path = join(dbPath, Env.DB_NAME);
+    this._path = path;
 
     db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
@@ -16,6 +18,8 @@ class SqliteDbService {
       //     'CREATE TABLE IF NOT EXISTS ${DatabaseContants.TEAMS_TABLE_NAME} (key INTEGER PRIMARY KEY, name TEXT, coach TEXT, players INTEGER)');
     });
   }
+
+  String get dbPathName => this._path;
 
   Future<int> count({@required String tableName}) async {
     return Sqflite.firstIntValue(

@@ -7,17 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_flutter/environment.dart';
 
 import 'package:my_flutter/main.dart';
-import 'package:my_flutter/redux/appState.dart';
-import 'package:redux/redux.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    final Store<AppState> store = await Environment.setup();
     // Build our app and trigger a frame.
-    await tester.pumpWidget(App(store));
+    await tester.pumpWidget(App());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

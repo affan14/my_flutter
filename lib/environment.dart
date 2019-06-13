@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_flutter/config/ioc.dart';
-import 'package:my_flutter/redux/store.dart';
-import 'package:my_flutter/services/database.service.dart';
 
 class Environment {
   static setup() async {
@@ -19,8 +17,5 @@ class Environment {
     ));
 
     Ioc.setupIocDependency();
-    await ioc.get<SqliteDbService>().initDatabase();
-
-    return await createStore();
   }
 }
