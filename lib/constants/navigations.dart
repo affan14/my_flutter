@@ -6,4 +6,5 @@ class AppRoutes {
   //Page Routes
   static const String SPLASH = "/";
   static const String HOME = "/homepage";
+  static const String CARROUSSEL = "/carroussel";
 }

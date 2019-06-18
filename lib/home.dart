@@ -13,8 +13,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final menuItems = [
     new MenuItem("Beranda", Icons.home, route: AppRoutes.HOME),
-    new MenuItem("Halaman 1", Icons.format_list_numbered,
-        route: AppRoutes.HOME),
+    new MenuItem("Carroussel", Icons.album,
+        route: AppRoutes.CARROUSSEL),
   ];
 
   List<Widget> _buildSection(

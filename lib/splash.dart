@@ -31,7 +31,7 @@ class _SplashState extends State<Splash> {
         await PermissionHandler.checkPermissionStatus(PermissionGroup.storage);
     if (permissionStatus != PermissionStatus.granted)
       permissions.add(PermissionGroup.storage);
-    await requestPermission();
+    if (permissions.isNotEmpty) await requestPermission();
   }
 
   requestPermission() async {
@@ -65,8 +65,7 @@ class _SplashState extends State<Splash> {
         body: Container(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-          color: Colors.white10),
+      decoration: BoxDecoration(color: Colors.white10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
