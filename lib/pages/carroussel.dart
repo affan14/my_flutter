@@ -16,8 +16,6 @@ class _CarrousselState extends State<Carroussel> {
 
   @override
   initState() {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
     _scrollController.addListener(() {
       if (_scrollController.offset >= _appBarHeight)
         setState(() {
@@ -113,6 +111,7 @@ class _CarrousselState extends State<Carroussel> {
       viewportFraction: 1.0,
       height: 120,
       onPageChanged: _onSliderChanged,
+      withIndicator: true,
     );
   }
 
@@ -129,6 +128,8 @@ class _CarrousselState extends State<Carroussel> {
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Stack(
       children: <Widget>[
