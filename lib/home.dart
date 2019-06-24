@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter/constants/colors.dart';
 import 'package:my_flutter/constants/navigations.dart';
-import 'package:my_flutter/model/drawerItem.dart';
+import 'package:my_flutter/models/drawerItem.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -15,6 +15,8 @@ class _HomePageState extends State<HomePage> {
     new MenuItem("Beranda", Icons.home, route: AppRoutes.HOME),
     new MenuItem("Carroussel", Icons.album,
         route: AppRoutes.CARROUSSEL),
+    new MenuItem("Carroussel Bloc", Icons.album,
+        route: AppRoutes.CARROUSSEL+"_"),
   ];
 
   List<Widget> _buildSection(

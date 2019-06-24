@@ -123,7 +123,7 @@ class _CarouselState extends State<Carousel> with TickerProviderStateMixin {
 
   Widget circleBar(bool isActive) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
+      duration: Duration(milliseconds: 250),
       margin: EdgeInsets.symmetric(horizontal: 5),
       height: isActive ? 5 : 5,
       width: isActive ? 20 : 5,

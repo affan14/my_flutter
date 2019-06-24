@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:my_flutter/constants/navigations.dart';
 import 'package:my_flutter/home.dart';
 import 'package:my_flutter/pages/carroussel.dart';
+import 'package:my_flutter/pages/carroussel/index.dart';
 import 'package:my_flutter/splash.dart';
 
 Route generateRoutes(RouteSettings settings) {
@@ -11,6 +12,8 @@ Route generateRoutes(RouteSettings settings) {
       return buildRoute(settings, HomePage());
     case AppRoutes.CARROUSSEL:
       return buildRoute(settings, Carroussel());
+    case AppRoutes.CARROUSSEL + "_":
+      return buildRoute(settings, CarrousselPage());
     default:
       return buildRoute(settings, Splash());
   }

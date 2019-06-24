@@ -29,7 +29,7 @@ class WebClient {
       var token = prefs.getString(Env.TOKEN_KEY);
 
       if (token != null) {
-        options.headers.putIfAbsent('Authorization', () => token);
+        options.headers.putIfAbsent('X-API-KEY', () => token);
       }
 
       return options;
@@ -72,4 +72,4 @@ class WebClient {
   }
 }
 
-final WebClient http = new WebClient();
+final WebClient httpClient = new WebClient();
