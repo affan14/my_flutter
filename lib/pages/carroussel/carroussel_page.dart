@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_flutter/widget/carousel.dart';
 import 'package:my_flutter/widget/clipper/diagonal_clipper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'carroussel_bloc.dart';
 import 'carroussel_event.dart';
@@ -81,7 +83,7 @@ class _CarrousselPageState extends State<CarrousselPage> {
                   ),
                 ),
               ),
-              onTap: () {
+              onTapDown: (tapDetails) {
                 print('search tapped');
               },
             )),
@@ -111,7 +113,21 @@ class _CarrousselPageState extends State<CarrousselPage> {
       ) {
         if (currentState is CarrousselLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: Container(
+              margin: EdgeInsets.only(left: 15, right: 15),
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                child: Container(
+                  width: width,
+                  height: 120,
+                  color: Colors.white,
+                  child: Center(
+                    child: Icon(Icons.image, color: Colors.grey[400],),
+                  ),
+                ),
+              ),
+            ),
           );
         }
         if (currentState is CarrousselNotLoaded) {
@@ -121,11 +137,12 @@ class _CarrousselPageState extends State<CarrousselPage> {
           ));
         }
         return Carousel(
-          items: (currentState as CarrousselLoaded).pixabayImages
+          items: (currentState as CarrousselLoaded)
+              .pixabayImages
               .map((img) => Container(
                     margin: EdgeInsets.only(left: 15, right: 15),
-                    child: Image.network(
-                      img.webformatURL,
+                    child: CachedNetworkImage(
+                      imageUrl: img.webformatURL,
                       width: width,
                       fit: BoxFit.cover,
                     ),
@@ -133,6 +150,7 @@ class _CarrousselPageState extends State<CarrousselPage> {
               .toList(),
           autoPlay: true,
           viewportFraction: 1.0,
+          // enlargeCenterPage: true,
           height: 120,
           onPageChanged: _onSliderChanged,
           withIndicator: true,
