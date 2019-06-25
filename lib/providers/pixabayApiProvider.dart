@@ -18,9 +18,10 @@ class PixabayApiProvider {
       'key': Env.PIXABAY_API_KEY,
       'lang': 'id',
       'image_type': 'all',
-      'orientation': 'horizontal',
-      'catagory': 'nature',
-      'per_page': 5
+      // 'orientation': 'horizontal',
+      // 'catagory': 'computer',
+      'per_page': 5,
+      'q':'desain+datar'
     });
     print(response.data.toString());
     if (response.statusCode == 200)

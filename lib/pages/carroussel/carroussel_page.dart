@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_flutter/constants/colors.dart';
 import 'package:my_flutter/widget/carousel.dart';
 import 'package:my_flutter/widget/clipper/diagonal_clipper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:my_flutter/widget/gradientAppBar.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'carroussel_bloc.dart';
@@ -44,6 +46,67 @@ class _CarrousselPageState extends State<CarrousselPage> {
 
   void _onSliderChanged(int index) {
     print('index now is $index');
+  }
+
+  Widget _buildGradientAppBar() {
+    return Positioned(
+      top: 0.0,
+      left: 0.0,
+      right: 0.0,
+      child: GradientAppBar(
+        gradient: LinearGradient(
+          colors: [BlueRaspberry.start, BlueRaspberry.end],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.camera_alt,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            print('home pressed');
+          },
+        ),
+        title: Align(
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              child: Container(
+                padding: EdgeInsets.all(0),
+                margin: EdgeInsets.all(0),
+                width: width * .7,
+                height: 30,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.withOpacity(.6))),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                  ),
+                ),
+              ),
+              onTapDown: (tapDetails) {
+                print('search tapped');
+              },
+            )),
+        trailing: IconButton(
+          icon: Icon(
+            Icons.account_balance_wallet,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            print('wallet pressed');
+          },
+        ),
+        opacity: _opacity,
+        elevation: 0.0,
+      ),
+    );
   }
 
   Widget _buildAppBar() {
@@ -123,7 +186,10 @@ class _CarrousselPageState extends State<CarrousselPage> {
                   height: 120,
                   color: Colors.white,
                   child: Center(
-                    child: Icon(Icons.image, color: Colors.grey[400],),
+                    child: Icon(
+                      Icons.image,
+                      color: Colors.grey[400],
+                    ),
                   ),
                 ),
               ),
@@ -205,7 +271,7 @@ class _CarrousselPageState extends State<CarrousselPage> {
             ),
           ),
         ),
-        _buildAppBar(),
+        _buildGradientAppBar(),
       ],
     ));
   }
