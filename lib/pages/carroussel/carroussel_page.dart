@@ -1,3 +1,4 @@
+import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_flutter/constants/colors.dart';
@@ -6,6 +7,7 @@ import 'package:my_flutter/widget/clipper/diagonal_clipper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:my_flutter/widget/gradientAppBar.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'carroussel_bloc.dart';
 import 'carroussel_event.dart';
@@ -68,32 +70,29 @@ class _CarrousselPageState extends State<CarrousselPage> {
             print('home pressed');
           },
         ),
-        title: Align(
-            alignment: Alignment.centerLeft,
-            child: InkWell(
-              child: Container(
-                padding: EdgeInsets.all(0),
-                margin: EdgeInsets.all(0),
-                width: width * .7,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey.withOpacity(.6))),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                  ),
-                ),
-              ),
-              onTapDown: (tapDetails) {
-                print('search tapped');
-              },
-            )),
+        title: Division(
+          style: StyleClass()
+            ..border(
+              all: 0.5,
+              color: Colors.grey.withOpacity(.6),
+            )
+            ..alignChild(Alignment.centerLeft)
+            ..backgroundColor(Colors.white)
+            ..ripple(true)
+            ..width(width * .7)
+            ..height(30),
+          gesture: GestureClass()
+            ..onTap(() {
+              print('search tap');
+            }),
+          child: Padding(
+            padding: EdgeInsets.all(2.0),
+            child: Icon(
+              Icons.search,
+              color: Colors.grey.withOpacity(0.5),
+            ),
+          ),
+        ),
         trailing: IconButton(
           icon: Icon(
             Icons.account_balance_wallet,
@@ -104,64 +103,6 @@ class _CarrousselPageState extends State<CarrousselPage> {
           },
         ),
         opacity: _opacity,
-        elevation: 0.0,
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Positioned(
-      top: 0.0,
-      left: 0.0,
-      right: 0.0,
-      child: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.camera_alt,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            print('home pressed');
-          },
-        ),
-        title: Align(
-            alignment: Alignment.centerLeft,
-            child: InkWell(
-              child: Container(
-                padding: EdgeInsets.all(0),
-                margin: EdgeInsets.all(0),
-                width: width * .7,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey.withOpacity(.6))),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                  ),
-                ),
-              ),
-              onTapDown: (tapDetails) {
-                print('search tapped');
-              },
-            )),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.account_balance_wallet,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              print('wallet pressed');
-            },
-          ),
-        ],
-        backgroundColor: Colors.green.withOpacity(_opacity),
         elevation: 0.0,
       ),
     );
@@ -185,12 +126,6 @@ class _CarrousselPageState extends State<CarrousselPage> {
                   width: width,
                   height: 120,
                   color: Colors.white,
-                  child: Center(
-                    child: Icon(
-                      Icons.image,
-                      color: Colors.grey[400],
-                    ),
-                  ),
                 ),
               ),
             ),
@@ -198,15 +133,24 @@ class _CarrousselPageState extends State<CarrousselPage> {
         }
         if (currentState is CarrousselNotLoaded) {
           return new Container(
-              child: new Center(
-            child: new Text('Error'),
-          ));
+            width: width,
+            height: 120,
+            color: Colors.white,
+            child: IconButton(
+              icon: Icon(MaterialCommunityIcons.image_broken),
+              onPressed: () {
+                _carrousselBloc.dispatch(LoadCarrousselEvent());
+              },
+            ),
+          );
         }
         return Carousel(
           items: (currentState as CarrousselLoaded)
               .pixabayImages
               .map((img) => Container(
                     margin: EdgeInsets.only(left: 15, right: 15),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: CachedNetworkImage(
                       imageUrl: img.webformatURL,
                       width: width,
@@ -234,6 +178,7 @@ class _CarrousselPageState extends State<CarrousselPage> {
   @override
   dispose() {
     super.dispose();
+    _carrousselBloc.dispose();
   }
 
   @override
@@ -241,38 +186,39 @@ class _CarrousselPageState extends State<CarrousselPage> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        SingleChildScrollView(
-          controller: _scrollController,
-          child: Container(
-            color: Colors.blue,
-            child: Stack(
-              children: <Widget>[
-                ClipPath(
-                  clipper: DiagonalClipper(),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Container(
-                    color: Colors.blueGrey,
-                    width: width,
-                    height: 250,
-                  ),
-                ),
-                Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 100.0,
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            controller: _scrollController,
+            child: Container(
+              color: Colors.blue,
+              child: Stack(
+                children: <Widget>[
+                  ClipPath(
+                    clipper: DiagonalClipper(),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Container(
+                      color: Colors.blueGrey,
+                      width: width,
+                      height: 250,
                     ),
-                    _buildSlider(),
-                    _buildBody()
-                  ],
-                )
-              ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 100.0,
+                      ),
+                      _buildSlider(),
+                      _buildBody()
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        _buildGradientAppBar(),
-      ],
-    ));
+          _buildGradientAppBar(),
+        ],
+      ),
+    );
   }
 }

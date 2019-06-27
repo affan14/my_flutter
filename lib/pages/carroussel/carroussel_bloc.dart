@@ -18,14 +18,12 @@ class CarrousselBloc extends Bloc<CarrousselEvent, CarrousselState> {
 
   @override
   Stream<CarrousselState> mapEventToState(CarrousselEvent currentEvent) async* {
-    yield* _mapLoadCarrousselToState();
+    if (currentEvent is LoadCarrousselEvent) yield* _mapLoadCarrousselToState();
   }
 
   Stream<CarrousselState> _mapLoadCarrousselToState() async* {
     try {
       final hits = await carrousselRepository.fetchAllImage();
-      print(hits.totalHits);
-      print(hits.hits[0].webformatURL);
       yield CarrousselLoaded(
         hits.hits,
       );
